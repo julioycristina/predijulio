@@ -76,7 +76,7 @@ with st.form("formulario"):
     deudas = st.slider("Deudas Activas",0, 5, 2)
     historial = st.selectbox("Historial Credito",["Bueno", "Regular","Malo"])
     edad = st.slider("Edad",21,64,30)
-    tarjeta = st.radio("¿Tiene tarjeta de crédito?", [0,1])
+    tarjeta = st.radio("¿Tiene tarjeta de crédito?", ["SI","NO"])
     educacion = st.selectbox("Nivel de Educación", ["Básico","Medio", "Superior"])
     inversiones = st.slider("Inversiones Activas", 0,3,1)
     
@@ -84,8 +84,8 @@ with st.form("formulario"):
     submit = st.form_submit_button("Predecir")
     
     if submit:
-        historial_cod = le.fit(ds["Historial_Credito"]).transform(historial)[0]
-        educacion_cod = le.fit(ds["Nivel_Educacion"]).transform(educacion)[0]
+        historial_cod = le.fit(ds["Historial_Credito"]).transform([historial])[0]
+        educacion_cod = le.fit(ds["Nivel_Educacion"]).transform([educacion])[0]
         entrada = pd.DataFrame([[ingresos, gastos, deudas, historial_cod, edad, tarjeta,educacion_cod, inversiones]], columns=x.columns)
         
         pred = modelo.predict(entrada)[0]
